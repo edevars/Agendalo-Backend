@@ -1,14 +1,16 @@
 const express = require('express');
-const { placesMock } = require('../utils/mocks/places');
+const PlacesService = require('../services/places');
 
 function placesApi(app) {
   const router = express.Router();
   app.use('/api/places', router);
 
+  const placesService = new PlacesService();
+
   //get all the places
   router.get('/', async function(req, res, next) {
     try {
-      const places = await Promise.resolve(placesMock);
+      const places = await placesService.getPlaces();
       res.status(200).json({
         data: places,
         message: 'Places listed'
@@ -20,9 +22,9 @@ function placesApi(app) {
 
   //get place by id
   router.get('/:placeId', async function(req, res, next) {
-
+    const { placeId } = req.params;
     try {
-      const placeById = await Promise.resolve(placesMock[0]);
+      const placeById = await placesService.getPlaceById({ placeId });
       res.status(200).json({
         data: placeById,
         message: 'Place listed by ID'
@@ -34,11 +36,11 @@ function placesApi(app) {
 
   //create place
   router.post('/', async function(req, res, next) {
+    const { body: place } = req;
     try {
-      
-      const createdPlace = await Promise.resolve(placesMock[0].id);
+      const createdPlaceId = await placesService.createPlace({ place });
       res.status(201).json({
-        data: createdPlace,
+        data: createdPlaceId,
         message: 'Place created'
       });
     } catch (error) {
@@ -48,8 +50,10 @@ function placesApi(app) {
 
   //update place
   router.put('/:placeId', async function(req, res, next) {
+    const { placeId } = req.params;
+    const { body: place } = req;
     try {
-      const updatedPlace = await Promise.resolve(placesMock[0].id);
+      const updatedPlace = await placesService.updatePlace({ placeId, place });
       res.status(200).json({
         data: updatedPlace,
         message: 'Place updated'
@@ -59,10 +63,11 @@ function placesApi(app) {
     }
   });
 
-   //delete place
-   router.delete('/:placeId', async function(req, res, next) {
+  //delete place
+  router.delete('/:placeId', async function(req, res, next) {
+    const { placeId } = req.params;
     try {
-      const deletedPlace = await Promise.resolve(placesMock[0].id);
+      const deletedPlace = await placesService.deletePlace({ placeId });
       res.status(200).json({
         data: deletedPlace,
         message: 'Place deleted'
