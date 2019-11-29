@@ -1,28 +1,38 @@
-const { placesMock } = require('../utils/mocks/places');
+const MongoLib = require('../lib/mongo');
 
 class PlacesService {
-  async getPlaces() {
-    const places = await Promise.resolve(placesMock);
+  constructor() {
+    this.collection = 'places';
+    this.mongoDB = new MongoLib();
+  }
+
+  async getPlaces({tags}) {
+    const query = tags && { tags: { $in: tags } };
+    const places = await this.mongoDB.getAll(this.collection, query);
     return places || [];
   }
 
-  async getPlaceById() {
-    const placeById = await Promise.resolve(placesMock[0]);
+  async getPlaceById({ placeId }) {
+    const placeById = await this.mongoDB.get(this.collection, placeId);
     return placeById || {};
   }
 
-  async createPlace() {
-    const createdPlaceId = await Promise.resolve(placesMock[0].id);
+  async createPlace({ place }) {
+    const createdPlaceId = await this.mongoDB.create(this.collection, place);
     return createdPlaceId;
   }
 
-  async updatePlace() {
-    const updatedPlaceId = await Promise.resolve(placesMock[0].id);
+  async updatePlace({ placeId, place = {} }) {
+    const updatedPlaceId = await this.mongoDB.update(
+      this.collection,
+      placeId,
+      place
+    );
     return updatedPlaceId;
   }
 
-  async deletePlace() {
-    const deletedPlaceId = await Promise.resolve(placesMock[0].id);
+  async deletePlace({ placeId }) {
+    const deletedPlaceId = await this.mongoDB.delete(this.collection, placeId);
     return deletedPlaceId;
   }
 }
