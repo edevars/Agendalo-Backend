@@ -11,9 +11,10 @@ function placesApi(app) {
   router.get('/', async function(req, res, next) {
 
     const { tags } = req.query;
-
+    
     try {
       const places = await placesService.getPlaces({tags});
+     
       res.status(200).json({
         data: places,
         message: 'Places listed'
