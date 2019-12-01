@@ -10,9 +10,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@hapi/boom": "^8.0.1",
+    "@hapi/joi": "^16.1.8",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongodb": "^3.3.5"
+    "mongodb": "^3.3.5",
+    "morgan": "^1.9.1"
   },
   "devDependencies": {
     "eslint": "^6.7.1",
@@ -20,6 +23,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "husky": ">=1",
     "lint-staged": ">=8",
+    "mocha": "^6.2.2",
     "nodemon": "^2.0.1",
     "prettier": "^1.19.1"
   },
