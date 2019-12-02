@@ -1,13 +1,16 @@
 const express = require('express');
 const morgan = require('morgan');
 const notFounHandler = require('./utils/middleware/notFounHandler');
-const userPlace = require('./routes/userPlace');
 
 
 const app = express();
 
 const { config } = require('./config/index');
+
+//Require routes
 const placesApi = require('./routes/places');
+const userPlaceApi = require('./routes/userPlace');
+const authApi = require('./routes/auth');
 
 
 const {
@@ -24,8 +27,8 @@ app.use(morgan('combined'))
 
 //routes
 placesApi(app);
-userPlace(app);
-
+userPlaceApi(app);
+authApi(app)
 //catch error 404
 app.use(notFounHandler);
 
