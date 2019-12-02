@@ -66,8 +66,6 @@ function AuthApi(app) {
         next(error);
       }
     })(req, res, next);
-
-    
   });
 
   router.post('/sign-up', validationHandler(createdUser), async function(
@@ -80,11 +78,14 @@ function AuthApi(app) {
     try {
       const createdUserId = await userService.createUser({ user });
 
-      res.status(201).json({
-        data: createdUserId,
-        message: 'user created'
-      });
-      
+      if (!createdUserId) {
+        next(boom.unauthorized('User Already exists in database'));
+      } else {
+        res.status(201).json({
+          data: createdUserId,
+          message: 'user created'
+        });
+      }
     } catch (error) {
       next(error);
     }
