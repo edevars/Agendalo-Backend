@@ -28,10 +28,11 @@ app.use(express.json());
 //Loger to http requests
 app.use(morgan('combined'))
 
-//routes
+//adding routes
 placesApi(app);
 userPlaceApi(app);
 authApi(app)
+
 //catch error 404
 app.use(notFounHandler);
 

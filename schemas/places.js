@@ -9,9 +9,7 @@ const placeDescription = joi
   .min(120)
   .max(250);
 const placeAvailableSits = joi
-  .number()
-  .min(30)
-  .max(80);
+  .number().min(0)
 
 const placeCost = joi.number();
 
