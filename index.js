@@ -1,12 +1,14 @@
 const express = require('express');
 const morgan = require('morgan');
 const notFounHandler = require('./utils/middleware/notFounHandler');
+const userPlace = require('./routes/userPlace');
 
 
 const app = express();
 
 const { config } = require('./config/index');
 const placesApi = require('./routes/places');
+
 
 const {
   logErrors,
@@ -20,7 +22,10 @@ app.use(express.json());
 //Loger to http requests
 app.use(morgan('combined'))
 
+//routes
 placesApi(app);
+userPlace(app);
+
 //catch error 404
 app.use(notFounHandler);
 
