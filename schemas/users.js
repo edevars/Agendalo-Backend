@@ -12,7 +12,7 @@ const createdUser = {
     .email()
     .required(),
   password: joi.string().required(),
-  isAdmin: joi.boolean().required()
+  isAdmin: joi.boolean()
 };
 
 module.exports = { userIdSchema, createdUser };
