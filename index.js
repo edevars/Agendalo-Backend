@@ -43,5 +43,6 @@ app.use(errorHandler);
 
 
 app.listen(config.port, () => {
-  console.log(`Listening http://localhost:${config.port}`);
+  const debug = require("debug")("app:server");
+  debug(`Listening http://localhost:${config.port}`);
 });

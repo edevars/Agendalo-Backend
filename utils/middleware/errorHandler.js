@@ -1,7 +1,6 @@
 const boom = require('@hapi/boom');
 const { config } = require('../../config');
 
-
 function withErrorStack(error, stack) {
   if (config.dev) {
     return { ...error, stack };
@@ -11,7 +10,8 @@ function withErrorStack(error, stack) {
 }
 
 function logErrors(err, req, res, next) {
-  console.log(err);
+  const debug = require('debug')('app:error');
+  debug(err);
   next(err);
 }
 
@@ -24,8 +24,10 @@ function wrapErrors(err, req, res, next) {
 }
 
 function errorHandler(err, req, res, next) {//eslint-disable-line
-  const {output : { statusCode, payload}} = err;
-  
+  const {
+    output: { statusCode, payload }
+  } = err;
+
   res.status(statusCode || 500);
   res.json(withErrorStack(payload, err.stack));
 }
